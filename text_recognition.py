@@ -85,7 +85,7 @@ args = vars(ap.parse_args())
 
 
 # load the input image and grab the image dimensions
-image = cv2.imread("images/syamel2.jpg")
+image = cv2.imread("images/syamil.jpg")
 orig = image.copy()
 (origH, origW) = image.shape[:2]
 
@@ -157,6 +157,8 @@ for (startX, startY, endX, endY) in boxes:
 	kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (1, 5))
 	bw = cv2.morphologyEx(bw, cv2.MORPH_OPEN, kernel) 
 
+	cv2.imwrite("img.jpeg",roi)
+
 	# Setup SimpleBlobDetector parameters.
 	params = cv2.SimpleBlobDetector_Params()
 
@@ -213,10 +215,13 @@ for (startX, startY, endX, endY) in boxes:
 
 		# draw rectangle around contour on original image
 		cv2.rectangle(roi,(x,y),(x+w,y+h),(255,0,255),2)
-		cv2.imshow("Text Detection", roi)
-		cv2.waitKey(0)
 
+		# cropping each loop bounding box
+		y = roi[y:(y-10)+(h+10), x:(x-10)+(w+10)]
 
+		
+		
+		
 
 	# in order to apply Tesseract v4 to OCR text we must supply
 	# (1) a language, (2) an OEM flag of 4, indicating that the   
@@ -224,9 +229,8 @@ for (startX, startY, endX, endY) in boxes:
 	# (3) an OEM value, in this case, 7 which implies that we are
 	# treating the ROI as a single line of text
 	
+
 config = ("--oem 3 --psm 13 -c tessedit_char_whitelist=0123456789")
-cv2.imshow("Text Detection", roi)
-cv2.waitKey(0)
 text = pytesseract.image_to_string(roi, lang="eng" ,config=config)
 
 
