@@ -1,3 +1,4 @@
+
 # USAGE
 # python text_recognition.py --east frozen_east_text_detection.pb --image images/example_01.jpg
 # python text_recognition.py --east frozen_east_text_detection.pb --image images/example_04.jpg --padding 0.05
@@ -18,7 +19,7 @@ def decode_predictions(scores, geometry):
 	confidences = []
 
 	# loop over the number of rows
-	for y in range(0, numRows)
+	for y in range(0, numRows):
 		# extract the scores (probabilities), followed by the
 		# geometrical data used to derive potential bounding box
 		# coordinates that surround text
@@ -234,4 +235,3 @@ cv2.imshow("Text Detection", bw)
 print(text)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
